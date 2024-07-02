@@ -118,6 +118,12 @@ class VoiceFixer(nn.Module):
         break_point = seg_length
         while break_point < wav_10k.shape[0] + seg_length:
             segment = wav_10k[break_point - seg_length : break_point]
+            # If segment length is less than 1/10th of the sample rate,
+            # do not go through model and just cat the segment as is
+            if len(segment) < 44100 * 0.1:
+                break_point += len(segment)
+                res.append(segment)
+                continue
             if mode == 1:
                 segment = self.remove_higher_frequency(segment)
             sp, mel_noisy = self._pre(self._model, segment, cuda)
