@@ -126,7 +126,9 @@ class VoiceFixer(nn.Module):
                 break_point += len(segment)
                 segment = torch.tensor(segment)
                 segment = try_tensor_cuda(segment, cuda=cuda)
-                res.append(torch.tensor(segment))
+                reshaped_segment = segment.unsqueeze(0).unsqueeze(0)
+                print(reshaped_segment.shape)
+                res.append(reshaped_segment)
                 continue
             if mode == 1:
                 segment = self.remove_higher_frequency(segment)
