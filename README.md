@@ -53,7 +53,7 @@ Please visit [demo page](https://haoheliu.github.io/demopage-voicefixer/) to vie
 
 First, install voicefixer via pip:
 ```shell
-pip install git+https://github.com/haoheliu/voicefixer.git
+pip install git+https://github.com/cartesia-ai/voicefixer.git
 ```
 
 Process a file:
