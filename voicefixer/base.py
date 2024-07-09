@@ -157,7 +157,7 @@ class VoiceFixer(nn.Module):
     def restore(self, input, output, cuda=False, mode=0, your_vocoder_func=None):
         wav_10k = self._load_wav(input, sample_rate=44100)
         if len(wav_10k) == 0:
-            sshutil.copyfile(input, output)
+            shutil.copyfile(input, output)
             return
             
         print(len(wav_10k))
