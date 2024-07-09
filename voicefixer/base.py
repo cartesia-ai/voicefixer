@@ -3,6 +3,7 @@ from voicefixer.tools.pytorch_util import *
 from voicefixer.tools.wav import *
 from voicefixer.restorer.model import VoiceFixer as voicefixer_fe
 import os
+import shutil
 
 EPS = 1e-8
 
@@ -156,7 +157,7 @@ class VoiceFixer(nn.Module):
     def restore(self, input, output, cuda=False, mode=0, your_vocoder_func=None):
         wav_10k = self._load_wav(input, sample_rate=44100)
         if len(wav_10k) == 0:
-            save_wave(wav_10k, fname=output, sample_rate=44100)
+            sshutil.copyfile(input, output)
             return
             
         print(len(wav_10k))
