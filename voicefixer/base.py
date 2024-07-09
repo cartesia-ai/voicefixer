@@ -120,7 +120,6 @@ class VoiceFixer(nn.Module):
         # debug print
         print(wav_10k.shape)
         while break_point < wav_10k.shape[0] + seg_length:
-            memory_before = torch.cuda.memory_allocated(device)
             segment = wav_10k[break_point - seg_length : break_point]
             # If segment length is less than 1/10th of the sample rate,
             # do not go through model and just cat the segment as is
