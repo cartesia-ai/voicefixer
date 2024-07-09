@@ -119,9 +119,12 @@ class VoiceFixer(nn.Module):
         # debug print
         print(wav_10k.shape)
         while break_point < wav_10k.shape[0] + seg_length:
+            memory_before = torch.cuda.memory_allocated(device)
             segment = wav_10k[break_point - seg_length : break_point]
             # If segment length is less than 1/10th of the sample rate,
             # do not go through model and just cat the segment as is
+            if len(segment) == 0:
+                break
             if len(segment) < 44100 * 0.1:
                 break_point += len(segment)
                 segment = torch.tensor(segment)
@@ -145,8 +148,6 @@ class VoiceFixer(nn.Module):
                 print("Warning: Exceed energy limit,", input)
             # frame alignment
             out, _ = self._trim_center(out, segment)
-            print(f"out shape: {out.shape}")
-            print(f"segment shape: {segment.shape}")
             res.append(out)
             break_point += seg_length
         out = torch.cat(res, -1)
